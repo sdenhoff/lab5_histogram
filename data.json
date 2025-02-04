@@ -1,0 +1,54 @@
+[
+    {
+        "filename": "Housing.csv",
+        "data_wanted": "Housing Data",
+        "data": [
+		{
+			"column": "AGE",
+            "title": "Ages of Houses",
+            "xaxis": "Years Old",
+            "yaxis": "Count of Each"
+        },
+        {
+            "column": "BEDRMS",
+            "title": "Bedrooms Count",
+            "xaxis": "Nmbr of Bedrooms",
+            "yaxis": "Count of Each"
+        },
+        {
+            "column": "ROOMS",
+            "title": "Number of Rooms",
+            "xaxis": "Number of Rooms",
+            "yaxis": "Count of Each"
+        },
+        {
+            "column": "UTILITY",
+            "title": "Utility Square Feet",
+            "xaxis": "Utility Sq Fr",
+            "yaxis": "Count of Each"
+        }]
+    },
+    {
+        "filename": "PopChange.csv",
+        "data_wanted": "Population Data",
+        "data": [
+		{
+            "column": "Pop Apr 1",
+            "title": "Population in April",
+            "xaxis": "apr pop",
+            "yaxis": "Count of Each"
+        },
+        {
+            "column": "Pop Jul 1",
+            "title": "Population in July",
+            "xaxis": "jul pop",
+            "yaxis": "Count of Each"
+        },
+        {
+            "column": "Change Pop",
+            "title": "Population changes between April and July",
+            "xaxis": "apr pop",
+            "yaxis": "Count of each"
+        }]
+    }
+]
