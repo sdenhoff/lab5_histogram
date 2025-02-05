@@ -155,7 +155,11 @@ class DisplayData:
         Return:
             datafr.mean = Mean of the values
         """
-        df_mean = self.data_frame.mean().round(4)
+        try:
+            df_mean = self.data_frame.mean().round(4)
+        except TypeError:
+            print("There was an error calculating the Mean.")
+            df_mean = 0
         return df_mean
 
     def extract_std_dev(self):
@@ -163,7 +167,11 @@ class DisplayData:
         Return:
             datafr.std = Standard deviation of the observations
         """
-        df_std_dev = self.data_frame.std().round(4)
+        try:
+            df_std_dev = self.data_frame.std().round(4)
+        except TypeError:
+            print("There was an error calculating the Standard Deviation.")
+            df_std_dev = 0
         return df_std_dev
 
     def extract_min_max(self):
@@ -218,8 +226,8 @@ def read_data(filename):
         any_key()
         sys.exit(1)
     except pd.errors.EmptyDataError as e:
-        print(e)
         print("There is something wrong with this file")
+        print(f"The specific error is: {e}")
         any_key()
         return pd.DataFrame()
     return data_frame
@@ -248,7 +256,11 @@ def main_menu(remove=None):
             continue
         if choice == len(file_data):
             return False
-        if choice > len(file_data):
+        #if choice > len(file_data):
+        #    print("Please pick a number from the choices.")
+        #    any_key()
+        #    continue
+        if choice not in range(1, len(file_data)):
             print("Please pick a number from the choices.")
             any_key()
             continue
@@ -265,8 +277,9 @@ def sub_menu(main_choice, full_data_frame):
     # If no exit option - put one in
     if not exit_option:
         main_choice['data'].append({'title' : 'Exit Column'})
-    print(f"You have entered {main_choice['data_wanted']}")
     while True:
+        clear_screen()
+        print(f"You have entered {main_choice['data_wanted']}")
         try:
             for num, item in enumerate(main_choice['data']):
                 print(f"{num+1} {item['title']}")
@@ -275,12 +288,17 @@ def sub_menu(main_choice, full_data_frame):
             print("You picked something strange. Please pick a number from the choices.")
             any_key()
             continue
-        if sub_choice > len(main_choice['data']):
+        #if sub_choice > len(main_choice['data']):
+        #    print("Please pick a number from the choices.")
+        #    any_key()
+        #    continue
+        print(len(main_choice['data']))
+        if sub_choice == len(main_choice['data']):
+            return False
+        if sub_choice not in range(1, len(main_choice['data'])):
             print("Please pick a number from the choices.")
             any_key()
             continue
-        if sub_choice == len(main_choice['data']):
-            return False
         data_choice = main_choice['data'][sub_choice-1]
         output = DisplayData(full_data_frame[data_choice['column']], data_choice)
         output.print_data()
