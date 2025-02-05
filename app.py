@@ -33,25 +33,31 @@ helper_dict = [
 			"column": "AGE",
             "title": "Ages of Houses",
             "xaxis": "Years Old",
-            "yaxis": "Count of Each"
+            "yaxis": "How many times that age shows up"
         },
         {
             "column": "BEDRMS",
-            "title": "Bedrooms Count",
-            "xaxis": "Nmbr of Bedrooms",
-            "yaxis": "Count of Each"
+            "title": "Number of Bedrooms",
+            "xaxis": "Number of Bedrooms",
+            "yaxis": "How many times that number of bedrooms show up"
+        },
+        {
+            "column": "BUILT",
+            "title": "Year it was Built",
+            "xaxis": "Years Built",
+            "yaxis": "How many times that number of bedrooms show up"
         },
         {
             "column": "ROOMS",
             "title": "Number of Rooms",
             "xaxis": "Number of Rooms",
-            "yaxis": "Count of Each"
+            "yaxis": "How many times that number of rooms show up"
         },
         {
             "column": "UTILITY",
             "title": "Utility Square Feet",
             "xaxis": "Utility Sq Fr",
-            "yaxis": "Count of Each"
+            "yaxis": "How many times that SqFt range shows up"
         }]
     },
     {
@@ -61,20 +67,20 @@ helper_dict = [
 		{
             "column": "Pop Apr 1",
             "title": "Population in April",
-            "xaxis": "apr pop",
-            "yaxis": "Count of Each"
+            "xaxis": "April Population Ranges",
+            "yaxis": "How many areas reported that\nrange of population in April"
         },
         {
             "column": "Pop Jul 1",
             "title": "Population in July",
-            "xaxis": "jul pop",
-            "yaxis": "Count of Each"
+            "xaxis": "July Population Ranges",
+            "yaxis": "How many areas reported that\nrange of population in July"
         },
         {
             "column": "Change Pop",
             "title": "Population changes between April and July",
-            "xaxis": "apr pop",
-            "yaxis": "Count of each delta"
+            "xaxis": "Population Delta Ranges",
+            "yaxis": "How many areas changed in those\nranges between April and July"
         }]
     }
 ]
@@ -172,14 +178,14 @@ class DisplayData:
 
     def print_data(self):
         """ Print Data to screen """
-        print(f"You selected {self.data_struct['column']}\nThe statistics for this column are:")
+        print(f"You selected {self.data_struct['title']}\nThe statistics for this column are:")
         print(f"{'Count':<23} {'Mean':<23} {'Std Dev':<23} {'Min':<23} {'Max':<23}")
         print(f"{self.count:<23} {self.mean:<23} {self.stddev:<23,} {self.min:<23} {self.max:<23}")
 
     def display_histogram(self, bins_choice="auto"):
         """ Display Histogram """
         plt.close()
-        plt.hist(self.data_frame, bins=bins_choice, edgecolor='red')
+        plt.hist(self.data_frame, bins=bins_choice, edgecolor='black')
         plt.title(self.data_struct['title'])
         plt.xlabel(self.data_struct['xaxis'])
         plt.ylabel(self.data_struct['yaxis'])
@@ -211,15 +217,23 @@ def read_data(filename):
         print(f"The {e.filename} file seems to be missing, please try again")
         any_key()
         sys.exit(1)
+    except pd.errors.EmptyDataError as e:
+        print(e)
+        print("There is something wrong with this file")
+        any_key()
+        return pd.DataFrame()
     return data_frame
 
-def main_menu():
+def main_menu(remove=None):
     """ Main menu - to decide the dataset to use """
     file_data = []
     file_data = helper_dict.copy()
     for number, item in enumerate(file_data):
         if not os.path.isfile(item['filename']):
             file_data.pop(number)
+        if remove is not None:
+            if item['data_wanted'] == remove:
+                file_data.pop(number)
     file_data.append({'data_wanted' : 'Exit Program'})
     print("Welcome to the Python Data Analysis App")
     print("Select the file you want to analyze:")
@@ -241,16 +255,16 @@ def main_menu():
         file_data.pop()
         return file_data[choice-1]
 
-def sub_menu(main_choice):
+def sub_menu(main_choice, full_data_frame):
     """ Secondary menu """
-    ## Check to see if there is an exit option
-    #exit_option = False
-    #for exit_item in main_choice['data']:
-    #    if exit_item['title'] == 'Exit Column':
-    #        exit_option = True
-    ## If no exit option - put one in
-    #if not exit_option:
-    main_choice['data'].append({'title' : 'Exit Column'})
+    # Check to see if there is an exit option
+    exit_option = False
+    for exit_item in main_choice['data']:
+        if exit_item['title'] == 'Exit Column':
+            exit_option = True
+    # If no exit option - put one in
+    if not exit_option:
+        main_choice['data'].append({'title' : 'Exit Column'})
     print(f"You have entered {main_choice['data_wanted']}")
     while True:
         try:
@@ -267,30 +281,27 @@ def sub_menu(main_choice):
             continue
         if sub_choice == len(main_choice['data']):
             return False
-        return main_choice['data'][sub_choice-1]
-
-def main():
-    """ Main function """
-    while True:
-        clear_screen()
-        menu_choice = main_menu()
-        # Population Data
-        if not menu_choice:
-            print('Thanks for using the Data Analysis App')
-            break
-        full_data_frame = read_data(menu_choice['filename'])
-        data_choice = sub_menu(menu_choice)
-        if not data_choice:
-            continue
-        # data_frame, data_dict
+        data_choice = main_choice['data'][sub_choice-1]
         output = DisplayData(full_data_frame[data_choice['column']], data_choice)
-        #for i in [1, 2, 3]:
-        #    bins_value = output.calculate_bins(i)
-        #    output.print_data()
-        #    output.display_histogram(bins_choice=bins_value)
         output.print_data()
         output.display_histogram()
         any_key()
+
+def main():
+    """ Main function """
+    remove_section = None
+    while True:
+        clear_screen()
+        data_section = main_menu(remove_section)
+        # Population Data
+        if not data_section:
+            print('Thanks for using the Data Analysis App')
+            break
+        full_data_frame = read_data(data_section['filename'])
+        if full_data_frame.empty:
+            remove_section = str(data_section['data_wanted'])
+            continue
+        sub_menu(data_section, full_data_frame)
 
 
 if __name__ == "__main__":

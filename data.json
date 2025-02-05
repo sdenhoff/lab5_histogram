@@ -7,25 +7,31 @@
 			"column": "AGE",
             "title": "Ages of Houses",
             "xaxis": "Years Old",
-            "yaxis": "Count of Each"
+            "yaxis": "How many times that age shows up"
         },
         {
             "column": "BEDRMS",
-            "title": "Bedrooms Count",
-            "xaxis": "Nmbr of Bedrooms",
-            "yaxis": "Count of Each"
+            "title": "Number of Bedrooms",
+            "xaxis": "Number of Bedrooms",
+            "yaxis": "How many times that number of bedrooms show up"
+        },
+        {
+            "column": "BUILT",
+            "title": "Year it was Built",
+            "xaxis": "Years Built",
+            "yaxis": "How many times that number of bedrooms show up"
         },
         {
             "column": "ROOMS",
             "title": "Number of Rooms",
             "xaxis": "Number of Rooms",
-            "yaxis": "Count of Each"
+            "yaxis": "How many times that number of rooms show up"
         },
         {
             "column": "UTILITY",
             "title": "Utility Square Feet",
             "xaxis": "Utility Sq Fr",
-            "yaxis": "Count of Each"
+            "yaxis": "How many times that SqFt range shows up"
         }]
     },
     {
@@ -35,20 +41,20 @@
 		{
             "column": "Pop Apr 1",
             "title": "Population in April",
-            "xaxis": "apr pop",
-            "yaxis": "Count of Each"
+            "xaxis": "April Population Ranges",
+            "yaxis": "How many areas reported that\nrange of population in April"
         },
         {
             "column": "Pop Jul 1",
             "title": "Population in July",
-            "xaxis": "jul pop",
-            "yaxis": "Count of Each"
+            "xaxis": "July Population Ranges",
+            "yaxis": "How many areas reported that\nrange of population in July"
         },
         {
             "column": "Change Pop",
             "title": "Population changes between April and July",
-            "xaxis": "apr pop",
-            "yaxis": "Count of each"
+            "xaxis": "Population Delta Ranges",
+            "yaxis": "How many areas changed in those\nranges between April and July"
         }]
     }
 ]
