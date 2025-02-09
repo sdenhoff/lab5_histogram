@@ -270,6 +270,7 @@ def main_menu(remove=None):
 def sub_menu(main_choice, full_data_frame):
     """ Secondary menu """
     # Check to see if there is an exit option
+    clear_screen()
     exit_option = False
     for exit_item in main_choice['data']:
         if exit_item['title'] == 'Exit Column':
@@ -278,7 +279,6 @@ def sub_menu(main_choice, full_data_frame):
     if not exit_option:
         main_choice['data'].append({'title' : 'Exit Column'})
     while True:
-        clear_screen()
         print(f"You have entered {main_choice['data_wanted']}")
         try:
             for num, item in enumerate(main_choice['data']):
@@ -292,7 +292,6 @@ def sub_menu(main_choice, full_data_frame):
         #    print("Please pick a number from the choices.")
         #    any_key()
         #    continue
-        print(len(main_choice['data']))
         if sub_choice == len(main_choice['data']):
             return False
         if sub_choice not in range(1, len(main_choice['data'])):
@@ -300,10 +299,19 @@ def sub_menu(main_choice, full_data_frame):
             any_key()
             continue
         data_choice = main_choice['data'][sub_choice-1]
-        output = DisplayData(full_data_frame[data_choice['column']], data_choice)
+        try:
+            output = DisplayData(full_data_frame[data_choice['column']], data_choice)
+        except KeyError as e:
+            print(f"We got the following error: {e} is probably missing")
+            print("We are going to remove that as an option for you.")
+            main_choice['data'].pop(sub_choice-1)
+            any_key()
+            continue
         output.print_data()
         output.display_histogram()
         any_key()
+        clear_screen()
+
 
 def main():
     """ Main function """
