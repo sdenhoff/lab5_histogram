@@ -1,0 +1,15 @@
+astroid==3.3.8
+colorama==0.4.6
+dill==0.3.9
+distlib==0.3.9
+filelock==3.16.1
+isort==5.13.2
+mccabe==0.7.0
+platformdirs==4.3.6
+pylint==3.3.3
+python-dateutil==2.9.0.post0
+pytz==2025.1
+six==1.17.0
+tomlkit==0.13.2
+tzdata==2025.1
+virtualenv==20.28.1

@@ -1,6 +1,6 @@
 [
     {
-        "filename": "Housing.csv",
+        "filename": "resources/housing.csv",
         "data_wanted": "Housing Data",
         "data": [
 		{
@@ -35,7 +35,7 @@
         }]
     },
     {
-        "filename": "PopChange.csv",
+        "filename": "resources/pop_change.csv",
         "data_wanted": "Population Data",
         "data": [
 		{

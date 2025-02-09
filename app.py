@@ -26,7 +26,7 @@ except ModuleNotFoundError as e:
 
 helper_dict = [
     {
-        "filename": "Housing.csv",
+        "filename": "resources/housing.csv",
         "data_wanted": "Housing Data",
         "data": [
 		{
@@ -61,7 +61,7 @@ helper_dict = [
         }]
     },
     {
-        "filename": "PopChange.csv",
+        "filename": "resources/pop_change.csv",
         "data_wanted": "Population Data",
         "data": [
 		{
